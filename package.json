@@ -1,0 +1,28 @@
+{
+  "name": "quality-engineering-assessment-lab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:backend": "pnpm --filter @apps/atelier-booking-backend exec eslint .",
+    "typecheck:backend": "pnpm --filter @apps/atelier-booking-backend exec tsc --noEmit",
+    "check": "pnpm lint && pnpm typecheck:backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "typescript-eslint": "^8.58.2"
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs,ts,mts,cts}": "eslint --fix"
+  }
+}

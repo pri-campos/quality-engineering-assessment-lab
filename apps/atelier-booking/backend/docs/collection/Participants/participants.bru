@@ -1,0 +1,18 @@
+meta {
+  name: participants
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseURL}}/api/participants
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Caroline Costa",
+    "email": "carol@example.com"
+  }
+}

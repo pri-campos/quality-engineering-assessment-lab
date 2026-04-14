@@ -118,10 +118,10 @@ pnpm --filter @apps/atelier-booking-backend dev
 
 This lab is built on a few principles:
 
-Context over tools
-Evidence over opinion
-Trade-offs over absolutes
-Reproducibility over one-off experiments
+ - Context over tools
+ - Evidence over opinion
+ - Trade-offs over absolutes
+ - Reproducibility over one-off experiments
 
 ---
 

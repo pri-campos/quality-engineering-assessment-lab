@@ -1,0 +1,455 @@
+openapi: 3.1.0
+info:
+  title: Atelier Booking API
+  version: 1.0.0
+  description: >
+    API for managing workshop participants, workshops, enrollments,
+    waitlist behavior, and enrollment cancellation.
+
+servers:
+  - url: http://localhost:3333
+    description: Local development server
+
+tags:
+  - name: Health
+  - name: Participants
+  - name: Workshops
+  - name: Enrollments
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check
+      operationId: getHealth
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/participants:
+    post:
+      tags:
+        - Participants
+      summary: Create participant
+      operationId: createParticipant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateParticipantRequest'
+      responses:
+        '201':
+          description: Participant created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '409':
+          description: Participant email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/workshops:
+    post:
+      tags:
+        - Workshops
+      summary: Create workshop
+      operationId: createWorkshop
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkshopRequest'
+      responses:
+        '201':
+          description: Workshop created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workshop'
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '422':
+          description: Business validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/workshops/{id}:
+    get:
+      tags:
+        - Workshops
+      summary: Get workshop details
+      operationId: getWorkshopDetails
+      parameters:
+        - $ref: '#/components/parameters/WorkshopId'
+      responses:
+        '200':
+          description: Workshop details returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkshopDetails'
+        '404':
+          description: Workshop not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/enrollments:
+    post:
+      tags:
+        - Enrollments
+      summary: Enroll participant in workshop
+      operationId: createEnrollment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEnrollmentRequest'
+      responses:
+        '201':
+          description: Enrollment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+        '400':
+          description: Invalid request payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        '404':
+          description: Participant or workshop not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Participant already enrolled in this workshop
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/enrollments/{id}/cancel:
+    patch:
+      tags:
+        - Enrollments
+      summary: Cancel enrollment
+      operationId: cancelEnrollment
+      parameters:
+        - $ref: '#/components/parameters/EnrollmentId'
+      responses:
+        '200':
+          description: Enrollment cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelEnrollmentResponse'
+        '404':
+          description: Enrollment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  parameters:
+    WorkshopId:
+      name: id
+      in: path
+      required: true
+      description: Workshop identifier
+      schema:
+        type: string
+        minLength: 1
+
+    EnrollmentId:
+      name: id
+      in: path
+      required: true
+      description: Enrollment identifier
+      schema:
+        type: string
+        minLength: 1
+
+  schemas:
+    HealthResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          example: ok
+
+    CreateParticipantRequest:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          minLength: 3
+          example: Ana Costa
+        email:
+          type: string
+          format: email
+          example: ana@example.com
+
+    Participant:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: cm9xyz123participant
+        name:
+          type: string
+          example: Ana Costa
+        email:
+          type: string
+          format: email
+          example: ana@example.com
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-04-14T20:00:00.000Z'
+
+    CreateWorkshopRequest:
+      type: object
+      required:
+        - title
+        - description
+        - capacity
+        - scheduledAt
+      properties:
+        title:
+          type: string
+          minLength: 3
+          example: Cerâmica para iniciantes
+        description:
+          type: string
+          minLength: 10
+          example: Workshop introdutório com prática em modelagem e torno.
+        capacity:
+          type: integer
+          minimum: 1
+          example: 1
+        scheduledAt:
+          type: string
+          format: date-time
+          example: '2026-05-01T19:00:00.000Z'
+
+    Workshop:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - capacity
+        - scheduledAt
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: cm9xyz123workshop
+        title:
+          type: string
+          example: Cerâmica para iniciantes
+        description:
+          type: string
+          example: Workshop introdutório com prática em modelagem e torno.
+        capacity:
+          type: integer
+          example: 1
+        scheduledAt:
+          type: string
+          format: date-time
+          example: '2026-05-01T19:00:00.000Z'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-04-14T20:05:00.000Z'
+
+    CreateEnrollmentRequest:
+      type: object
+      required:
+        - participantId
+        - workshopId
+      properties:
+        participantId:
+          type: string
+          minLength: 1
+          example: cm9xyz123participant
+        workshopId:
+          type: string
+          minLength: 1
+          example: cm9xyz123workshop
+
+    Enrollment:
+      type: object
+      required:
+        - id
+        - participantId
+        - workshopId
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: cm9xyz123enrollment
+        participantId:
+          type: string
+          example: cm9xyz123participant
+        workshopId:
+          type: string
+          example: cm9xyz123workshop
+        status:
+          $ref: '#/components/schemas/EnrollmentStatus'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-04-14T20:10:00.000Z'
+
+    EnrollmentStatus:
+      type: string
+      enum:
+        - CONFIRMED
+        - WAITLIST
+        - CANCELLED
+      example: CONFIRMED
+
+    WorkshopSummary:
+      type: object
+      required:
+        - confirmed
+        - waitlist
+        - cancelled
+      properties:
+        confirmed:
+          type: integer
+          example: 1
+        waitlist:
+          type: integer
+          example: 0
+        cancelled:
+          type: integer
+          example: 0
+
+    WorkshopEnrollmentItem:
+      type: object
+      required:
+        - id
+        - participantId
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          example: cm9xyz123enrollment
+        participantId:
+          type: string
+          example: cm9xyz123participant
+        status:
+          $ref: '#/components/schemas/EnrollmentStatus'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2026-04-14T20:10:00.000Z'
+
+    WorkshopDetails:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - capacity
+        - scheduledAt
+        - summary
+        - enrollments
+      properties:
+        id:
+          type: string
+          example: cm9xyz123workshop
+        title:
+          type: string
+          example: Cerâmica para iniciantes
+        description:
+          type: string
+          example: Workshop introdutório com prática em modelagem e torno.
+        capacity:
+          type: integer
+          example: 1
+        scheduledAt:
+          type: string
+          format: date-time
+          example: '2026-05-01T19:00:00.000Z'
+        summary:
+          $ref: '#/components/schemas/WorkshopSummary'
+        enrollments:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkshopEnrollmentItem'
+
+    CancelEnrollmentResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: Enrollment cancelled successfully
+
+    ErrorResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: Participant not found
+
+    ValidationErrorResponse:
+      type: object
+      required:
+        - message
+        - issues
+      properties:
+        message:
+          type: string
+          example: Validation failed
+        issues:
+          type: array
+          items:
+            type: object
+            additionalProperties: true

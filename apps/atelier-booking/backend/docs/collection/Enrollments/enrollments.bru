@@ -1,0 +1,18 @@
+meta {
+  name: enrollments
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseURL}}/api/enrollments
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "participantId": "cmnz4evti0002g74uvhgx4ex8",
+    "workshopId": "cmnz4gqmo0003g74u36przyhd"
+  }
+}

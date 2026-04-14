@@ -1,0 +1,6 @@
+packages:
+  - 'apps/*/*'
+  - 'assessments/*'
+  - 'shared/*'
+allowBuilds:
+  better-sqlite3: true

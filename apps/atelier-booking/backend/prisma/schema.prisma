@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Participant {
+  id          String       @id @default(cuid())
+  name        String
+  email       String       @unique
+  createdAt   DateTime     @default(now())
+  enrollments Enrollment[]
+}
+
+model Workshop {
+  id            String       @id @default(cuid())
+  title         String
+  description   String
+  capacity      Int
+  scheduledAt   DateTime
+  createdAt     DateTime     @default(now())
+  enrollments   Enrollment[]
+}
+
+model Enrollment {
+  id             String            @id @default(cuid())
+  participantId  String
+  workshopId     String
+  status         EnrollmentStatus
+  createdAt      DateTime          @default(now())
+
+  participant Participant @relation(fields: [participantId], references: [id])
+  workshop    Workshop    @relation(fields: [workshopId], references: [id])
+
+  @@unique([participantId, workshopId])
+}
+
+enum EnrollmentStatus {
+  CONFIRMED
+  WAITLIST
+  CANCELLED
+}

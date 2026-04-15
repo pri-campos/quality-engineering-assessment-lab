@@ -69,18 +69,17 @@ Each tool is evaluated across comparable contexts (API, UI, end-to-end) using th
 
 Tools may include both traditional frameworks (e.g., Playwright, Cypress, Postman) and agent-based solutions, treated as part of the same evaluation space.
 
-`shared/`
+`shared/` - TO DO
 
 Reusable assets across experiments:
 
  - test data
  - scenario definitions
- - contracts (API / domain)
  - utilities
 
 This layer ensures consistency and comparability across evaluations
 
-`docs/`
+`docs/` - TO DO
 
 Centralized knowledge base:
 

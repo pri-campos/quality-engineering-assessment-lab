@@ -91,26 +91,9 @@ Centralized knowledge base:
 
 ---
 
-## ⚙️ Tech Stack
-
- - Node.js + TypeScript
- - Fastify (HTTP layer)
- - Prisma (data layer)
- - pnpm (workspace management)
-
----
-
 ## 🚀 Getting Started
 
-Install dependencies:
-```shell
-pnpm install
-```
-
-Run backend example:
-```shell
-pnpm --filter @apps/atelier-booking-backend dev
-```
+ `TO DO`
 
 ---
 

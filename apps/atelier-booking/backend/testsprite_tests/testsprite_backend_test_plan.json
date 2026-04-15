@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "gethealthreturnsokstatus",
+    "description": "Verify that GET /health returns HTTP 200 with body {status: 'ok'} when the service is healthy."
+  },
+  {
+    "id": "TC002",
+    "title": "postapiparticipantscreatesparticipant",
+    "description": "Verify that POST /api/participants with valid name and email creates a new participant and returns HTTP 201 with participant object including id, name, email, and createdAt."
+  },
+  {
+    "id": "TC003",
+    "title": "postapiparticipantsvalidatesinput",
+    "description": "Verify that POST /api/participants with missing required fields (e.g., missing email) returns HTTP 400 with a validation error response."
+  },
+  {
+    "id": "TC004",
+    "title": "postapiparticipantsrejectsduplicateemail",
+    "description": "Verify that POST /api/participants with an email that already exists returns HTTP 409 with an error message indicating duplicate email."
+  },
+  {
+    "id": "TC005",
+    "title": "postapiworkshopscreatesworkshop",
+    "description": "Verify that POST /api/workshops with valid title, description, capacity, and scheduledAt creates a new workshop and returns HTTP 201 with workshop object including id, title, description, capacity, scheduledAt, and createdAt."
+  },
+  {
+    "id": "TC006",
+    "title": "postapiworkshopsvalidatesinput",
+    "description": "Verify that POST /api/workshops with missing or malformed fields (e.g., missing scheduledAt or invalid date format) returns HTTP 400 with a validation error response."
+  },
+  {
+    "id": "TC007",
+    "title": "postapiworkshopsrejectsinvalidbusinessdata",
+    "description": "Verify that POST /api/workshops with business-invalid data such as capacity less than 1 or scheduling conflicts returns HTTP 422 with an error response."
+  },
+  {
+    "id": "TC008",
+    "title": "getapiworkshopsidretrievesdetails",
+    "description": "Verify that GET /api/workshops/:id with a valid existing workshop id returns HTTP 200 with workshop details including enrollment summary and attendee list."
+  },
+  {
+    "id": "TC009",
+    "title": "getapiworkshopsidnotfound",
+    "description": "Verify that GET /api/workshops/:id with a non-existent workshop id returns HTTP 404 with an error response."
+  },
+  {
+    "id": "TC010",
+    "title": "postapienrollmentscreatesenrollment",
+    "description": "Verify that POST /api/enrollments with valid participantId and workshopId enrolls the participant. If workshop capacity is available, returns HTTP 201 with enrollment status CONFIRMED; if full, returns status WAITLIST."
+  }
+]

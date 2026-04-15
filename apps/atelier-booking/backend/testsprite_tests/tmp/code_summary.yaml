@@ -1,0 +1,106 @@
+version: "2"
+type: backend
+tech_stack:
+  - language: TypeScript
+  - framework: Fastify
+  - database: SQLite
+  - other: Prisma, Zod
+features:
+  - name: Workshop Booking API
+    description: Endpoints for participant creation, workshop creation, enrollments, and workshop details retrieval.
+    files:
+      - src/interfaces/http/routes/participant-routes.ts
+      - src/interfaces/http/routes/workshop-routes.ts
+      - src/interfaces/http/routes/enrollment-routes.ts
+      - src/interfaces/http/validators/participant-schemas.ts
+      - src/interfaces/http/validators/workshop-schemas.ts
+      - src/interfaces/http/validators/enrollment-schemas.ts
+    endpoints:
+      - method: GET
+        path: /health
+        description: Health check endpoint
+        auth_required: false
+        response_schema:
+          "200":
+            status: string
+      - method: POST
+        path: /api/participants
+        description: Create a new participant
+        auth_required: false
+        request_schema:
+          body:
+            name: string
+            email: string
+        response_schema:
+          "201":
+            id: string
+            name: string
+            email: string
+      - method: POST
+        path: /api/workshops
+        description: Create a new workshop
+        auth_required: false
+        request_schema:
+          body:
+            title: string
+            description: string
+            capacity: number
+            scheduledAt: string
+        response_schema:
+          "201":
+            id: string
+            title: string
+            description: string
+            capacity: number
+            scheduledAt: string
+      - method: GET
+        path: /api/workshops/:id
+        description: Retrieve workshop details with enrollment summary and attendee list
+        auth_required: false
+        response_schema:
+          "200":
+            id: string
+            title: string
+            description: string
+            capacity: number
+            scheduledAt: string
+            summary:
+              confirmed: number
+              waitlist: number
+              cancelled: number
+            enrollments:
+              - id: string
+                participantId: string
+                status: string
+                createdAt: string
+      - method: POST
+        path: /api/enrollments
+        description: Enroll an existing participant in a workshop
+        auth_required: false
+        request_schema:
+          body:
+            participantId: string
+            workshopId: string
+        response_schema:
+          "201":
+            id: string
+            participantId: string
+            workshopId: string
+            status: string
+            createdAt: string
+      - method: PATCH
+        path: /api/enrollments/:id/cancel
+        description: Cancel an enrollment by ID
+        auth_required: false
+        response_schema:
+          "200":
+            id: string
+            status: string
+            cancelledAt: string
+    depends_on:
+      - Database
+      - Repository layer
+known_limitations:
+  - issue: No authentication or authorization on API endpoints
+    location: src/interfaces/http/routes
+    impact: All endpoints are publicly accessible

@@ -88,6 +88,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+        '422':
+          description: Business validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /api/workshops/{id}:
     get:

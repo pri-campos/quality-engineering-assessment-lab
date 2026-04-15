@@ -1,0 +1,28 @@
+{
+  "system": "Atelier Booking API",
+  "description": "API for managing workshops and participant enrollments",
+  "entities": {
+    "Participant": {
+      "description": "User who can enroll in workshops"
+    },
+    "Workshop": {
+      "description": "Event with limited capacity"
+    },
+    "Enrollment": {
+      "description": "Relationship between participant and workshop"
+    }
+  },
+  "rules": [
+    "A participant can enroll in a workshop if capacity is available",
+    "A workshop cannot exceed its capacity",
+    "A participant cannot enroll twice in the same workshop",
+    "Enrollment can be canceled"
+  ],
+  "endpoints": [
+    "POST /participants",
+    "POST /workshops",
+    "POST /enrollments",
+    "DELETE /enrollments/:id",
+    "GET /workshops/:id"
+  ]
+}

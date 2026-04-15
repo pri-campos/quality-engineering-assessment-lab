@@ -5,14 +5,16 @@ meta {
 }
 
 post {
-  url: {{baseURL}}/api/enrollments
+  url: {{baseURL}}/api/workshops
   body: json
   auth: none
 }
 
 body:json {
   {
-    "participantId": "cm9xyz123participant",
-    "workshopId": "cm9xyz123workshop"
+    "title": "Cerâmica para iniciantes",
+    "description": "Workshop introdutório com prática em modelagem e torno.",
+    "capacity": 1,
+    "scheduledAt": "2026-05-01T19:00:00.000Z"
   }
 }

@@ -1,0 +1,19 @@
+{
+  "status": "commited",
+  "type": "backend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3333",
+  "backendAuthType": "public",
+  "executionArgs": {
+    "projectName": "atelier-booking-backend",
+    "projectPath": "/Users/prisciladeoliveiracampos/projects/quality-engineering-assessment-lab/apps/atelier-booking/backend",
+    "testIds": [],
+    "additionalInstruction": "",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-43y8GVB6WaJPzGfkKTu4zG5CewVMcIrZDpEbSpPus_bsBRbHgtc2MTujoUP5WUuqosPsiOJ7g5ZLxkWqUyUBSu-XPbXhtAEabgd2eh5QtkCZsIBcK5w6Te884NDD-jl3hhg"
+    }
+  },
+  "serverPort": 63429,
+  "proxy": "http://a1d35987-6ea1-42cf-adc8-fdb9505dc118:nRE5866swmGQsXAmSSGKF4esaZKVuXFh@tun.testsprite.com:8080"
+}
